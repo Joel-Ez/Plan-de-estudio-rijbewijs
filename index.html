@@ -430,7 +430,7 @@
     </div>
 
     <!-- PANTALLA 1: ONBOARDING -->
-    <div class="screen active" id="step-1">
+    <div class="screen" id="step-1">
         <div>
             <h1 class="step-title">Set up your plan</h1>
             <p class="step-subtitle">Choose when you want to start and which days you want to train for GratisRijbewijsOnline Theory B.</p>
@@ -557,7 +557,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn-continue" onclick="renderStudyPlan()">Start planning</button>
+        <button class="btn-continue" onclick="saveAndRenderPlan()">Start planning</button>
     </div>
 
     <!-- PANTALLA 6: PLANIFICADOR -->
@@ -587,7 +587,7 @@
                 </p>
             </div>
         </div>
-        <button class="btn-continue" onclick="goToStep(1)">Reiniciar plan</button>
+        <button class="btn-continue" onclick="resetPlan()">Reiniciar plan</button>
     </div>
 </div>
 
@@ -818,6 +818,7 @@
             }
         }
 
+        saveToLocalStorage();
         checkAllCompleted();
     }
 
@@ -825,6 +826,7 @@
         lessonsData.forEach(item => {
             completedLessons[item.id] = true;
         });
+        saveToLocalStorage();
         renderStudyPlan();
         goToStep(7);
     }
@@ -834,6 +836,47 @@
         if (completedCount === lessonsData.length) {
             setTimeout(() => goToStep(7), 400);
         }
+    }
+
+    function saveAndRenderPlan() {
+        saveToLocalStorage();
+        renderStudyPlan();
+    }
+
+    function saveToLocalStorage() {
+        const data = {
+            hasPlan: true,
+            selectedWeeks: selectedWeeks,
+            startDate: startDateObj.toISOString(),
+            selectedDays: selectedDays,
+            completedLessons: completedLessons
+        };
+        localStorage.setItem('driving_plan_data', JSON.stringify(data));
+    }
+
+    function loadFromLocalStorage() {
+        const saved = localStorage.getItem('driving_plan_data');
+        if (saved) {
+            try {
+                const data = JSON.parse(saved);
+                selectedWeeks = data.selectedWeeks;
+                startDateObj = new Date(data.startDate);
+                selectedDays = data.selectedDays;
+                completedLessons = data.completedLessons || {};
+                
+                renderStudyPlan();
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    function resetPlan() {
+        localStorage.removeItem('driving_plan_data');
+        completedLessons = {};
+        goToStep(1);
     }
 
     function renderStudyPlan() {
@@ -846,7 +889,6 @@
         for (let w = 1; w <= selectedWeeks; w++) {
             if (lessonIdx >= lessonsData.length) break;
 
-            // Cálculo dinámico del rango de fechas de la semana actual
             const weekStart = new Date(startDateObj);
             weekStart.setDate(startDateObj.getDate() + (w - 1) * 7);
 
@@ -913,10 +955,15 @@
     function applyPlanAdjustment() {
         selectedWeeks += tempWeeksToAdd;
         document.getElementById('edit-modal').style.display = 'none';
-        renderStudyPlan();
+        saveAndRenderPlan();
     }
 
     initDates();
+
+    // Intentar cargar el plan guardado al abrir la aplicación
+    if (!loadFromLocalStorage()) {
+        goToStep(1);
+    }
 </script>
 
 </body>
