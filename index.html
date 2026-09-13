@@ -668,6 +668,10 @@
         return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
     }
 
+    function formatShortDate(d) {
+        return `${d.getDate()}/${d.getMonth() + 1}`;
+    }
+
     function goToStep(stepNumber) {
         currentStep = stepNumber;
         document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
@@ -689,7 +693,7 @@
             document.getElementById('summary-start-date').innerText = selectedStartDateText;
             
             const endDate = new Date(startDateObj);
-            endDate.setDate(endDate.getDate() + (selectedWeeks * 7));
+            endDate.setDate(endDate.getDate() + (selectedWeeks * 7) - 1);
             document.getElementById('summary-end-date').innerText = formatDate(endDate);
             document.getElementById('summary-days').innerText = selectedDays.join(', ');
         }
@@ -842,10 +846,15 @@
         for (let w = 1; w <= selectedWeeks; w++) {
             if (lessonIdx >= lessonsData.length) break;
 
-            const weekCard = document.createElement('div');
-            weekCard.className = 'week-card';
+            // Cálculo dinámico del rango de fechas de la semana actual
+            const weekStart = new Date(startDateObj);
+            weekStart.setDate(startDateObj.getDate() + (w - 1) * 7);
 
-            let weekHTML = `<div class="week-header"><span class="week-title">Week ${w}</span><span class="week-badge">${selectedDays.length} study days</span></div>`;
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6);
+
+            const dateRangeStr = `(${formatShortDate(weekStart)}-${formatShortDate(weekEnd)})`;
+            let daysHTML = '';
 
             selectedDays.forEach((day, dayIdx) => {
                 const currentSlotNumber = ((w - 1) * selectedDays.length) + dayIdx;
@@ -872,11 +881,19 @@
                 }
 
                 if (itemsHTML !== '') {
-                    weekHTML += `<div class="day-row"><span class="day-label">${day.toUpperCase()}</span><div class="lessons-group">${itemsHTML}</div></div>`;
+                    daysHTML += `<div class="day-row"><span class="day-label">${day.toUpperCase()}</span><div class="lessons-group">${itemsHTML}</div></div>`;
                 }
             });
 
-            weekCard.innerHTML = weekHTML;
+            const weekCard = document.createElement('div');
+            weekCard.className = 'week-card';
+            weekCard.innerHTML = `
+                <div class="week-header">
+                    <span class="week-title">Week ${w} <span style="font-weight: normal; color: var(--subtext); font-size: 14px;">${dateRangeStr}</span></span>
+                    <span class="week-badge">${selectedDays.length} study days</span>
+                </div>
+                ${daysHTML}`;
+
             container.appendChild(weekCard);
         }
 
