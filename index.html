@@ -44,7 +44,6 @@
             position: relative;
         }
 
-        /* Nav */
         .top-nav {
             display: flex;
             align-items: center;
@@ -101,7 +100,7 @@
             text-align: center;
             color: var(--subtext);
             font-size: 14px;
-            margin: 0 0 16px 0;
+            margin: 0 0 20px 0;
             line-height: 1.4;
         }
 
@@ -120,17 +119,16 @@
             text-decoration: underline;
         }
 
-        /* Hero Header Clickable */
         .hero-card {
             background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 40px 20px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             text-align: center;
             text-decoration: none;
             cursor: pointer;
@@ -161,13 +159,12 @@
         }
 
         .hero-title {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
-            letter-spacing: 1px;
-            color: #94a3b8;
+            color: #fff;
+            letter-spacing: 0.5px;
         }
 
-        /* Options */
         .options-list {
             display: flex;
             flex-direction: column;
@@ -206,6 +203,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .option-card.selected .radio-circle {
@@ -217,12 +215,12 @@
             content: '✓';
             color: #ffffff;
             font-size: 12px;
+            font-weight: bold;
         }
 
-        /* Input Custom Date */
         .custom-date-container {
             display: none;
-            margin-top: 10px;
+            margin-top: 4px;
         }
         .custom-date-input {
             width: 100%;
@@ -235,7 +233,6 @@
             outline: none;
         }
 
-        /* Summary Overview */
         .overview-card {
             background-color: var(--card-bg);
             border-radius: 18px;
@@ -285,7 +282,6 @@
 
         .btn-continue:hover { opacity: 0.9; }
 
-        /* Estilos de las semanas y píldoras */
         .week-card {
             background-color: var(--card-bg);
             border-radius: 18px;
@@ -318,6 +314,7 @@
             font-weight: 700;
             color: var(--subtext);
             padding-top: 10px;
+            flex-shrink: 0;
         }
 
         .lessons-group {
@@ -325,6 +322,14 @@
             flex-direction: column;
             gap: 8px;
             flex: 1;
+            min-width: 0;
+        }
+
+        .lesson-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
         }
 
         .lesson-pill {
@@ -338,6 +343,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
+            width: 100%;
         }
 
         .lesson-pill.completed {
@@ -379,7 +385,145 @@
             font-weight: bold;
         }
 
-        /* Pantalla de Felicitaciones */
+        .btn-note-toggle {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-note-toggle:hover {
+            color: #ffffff;
+        }
+
+        .lesson-note-container {
+            display: none;
+            padding: 12px;
+            margin-bottom: 6px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .lesson-note-container.open {
+            display: block;
+        }
+
+        .lesson-note-editable {
+            width: 100%;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+            max-height: 120px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin-bottom: 10px;
+        }
+
+        .note-toolbar {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 4px;
+            scrollbar-width: thin;
+            width: 100%;
+        }
+
+        .note-toolbar::-webkit-scrollbar {
+            height: 4px;
+        }
+        .note-toolbar::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+
+        .tool-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            min-width: 32px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .tool-btn:hover {
+            background: var(--border-color);
+        }
+
+        .color-picker-wrapper {
+            position: relative;
+            width: 28px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .color-picker-wrapper:hover {
+            background: var(--border-color);
+        }
+
+        .color-picker-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .color-picker-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .color-preview-circle, .bg-preview-circle {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.4);
+            pointer-events: none;
+        }
+
+        .bg-preview-circle {
+            background-color: #1d4ed8;
+        }
+
         .congrats-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -441,9 +585,9 @@
                 <span style="font-size: 11px; color: #38bdf8; margin-top: 6px;">🔗 Visit GratisRijbewijsOnline</span>
             </a>
 
-            <p style="text-align: center; font-size: 13px; color: var(--subtext); margin-top: -10px;">
+            <p style="text-align: center; font-size: 13px; color: var(--subtext);">
                 Rijbewijs B · Gratis Rijbewijs Online<br>
-                <strong style="color: #fff;">Recommended: 4 study days per week</strong>
+                <strong style="color: #fff;">Personalized plans based on your study days</strong>
             </p>
         </div>
         <button class="btn-continue" onclick="goToStep(2)">Continue</button>
@@ -489,10 +633,10 @@
             <h1 class="step-title">Which days can you study?</h1>
             <p class="step-subtitle">Choose days that usually work for you.</p>
 
-            <div class="options-list">
+            <div class="options-list" id="days-options-list">
                 <div class="option-card selected" onclick="toggleDay('Mon', this)"><span class="main-label">Monday</span><div class="radio-circle"></div></div>
                 <div class="option-card selected" onclick="toggleDay('Tue', this)"><span class="main-label">Tuesday</span><div class="radio-circle"></div></div>
-                <div class="option-card selected" onclick="toggleDay('Wed', this)"><span class="main-label">Wednesday</span><div class="radio-circle"></div></div>
+                <div class="option-card" onclick="toggleDay('Wed', this)"><span class="main-label">Wednesday</span><div class="radio-circle"></div></div>
                 <div class="option-card selected" onclick="toggleDay('Thu', this)"><span class="main-label">Thursday</span><div class="radio-circle"></div></div>
                 <div class="option-card selected" onclick="toggleDay('Fri', this)"><span class="main-label">Friday</span><div class="radio-circle"></div></div>
                 <div class="option-card" onclick="toggleDay('Sat', this)"><span class="main-label">Saturday</span><div class="radio-circle"></div></div>
@@ -506,7 +650,7 @@
     <div class="screen" id="step-4">
         <div>
             <h1 class="step-title">How long do you want to follow this plan?</h1>
-            <p class="step-subtitle">You can always change this later.</p>
+            <p class="step-subtitle">Recommended options based on your weekly study days.</p>
 
             <div class="options-list" id="duration-options-list">
             </div>
@@ -531,7 +675,7 @@
                     <div class="overview-icon">⏱</div>
                     <div class="option-info">
                         <span class="sub-label">Length</span>
-                        <span class="main-label" id="summary-length">6 weeks</span>
+                        <span class="main-label" id="summary-length">4 weeks</span>
                     </div>
                 </div>
                 <div class="overview-item">
@@ -595,7 +739,7 @@
 <div class="modal-bg" id="edit-modal">
     <div class="modal-card">
         <h2 style="margin-top: 0; font-size: 18px;">Adjust Plan Duration</h2>
-        <p style="color: var(--subtext); font-size: 13px;">Add up to 3 more weeks to spread out your study load.</p>
+        <p style="color: var(--subtext); font-size: 13px;">Add more weeks to spread out your study load.</p>
 
         <div class="options-list">
             <div class="option-card" onclick="setExtraWeeks(1, this)"><span class="main-label">+1 Week</span><div class="radio-circle"></div></div>
@@ -612,8 +756,9 @@
     let selectedWeeks = 4;
     let startDateObj = new Date();
     let selectedStartDateText = '';
-    let selectedDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    let selectedDays = ['Mon', 'Tue', 'Thu', 'Fri'];
     let completedLessons = {};
+    let lessonNotes = {};
     let tempWeeksToAdd = 3;
 
     const colorPalette = ['color-blue', 'color-orange', 'color-red', 'color-green', 'color-purple'];
@@ -751,49 +896,64 @@
         const numDays = selectedDays.length;
         const totalLessons = lessonsData.length;
         
-        let recWeeks = Math.ceil(totalLessons / (numDays * 1.5));
-        if (recWeeks < 2) recWeeks = 2;
+        // Calcular la duración ideal basada en la cantidad de lecciones y días por semana (asumiendo ~1.5 lecciones por día de estudio en ritmo estándar)
+        let baseIdealWeeks = Math.ceil(totalLessons / (numDays * 1.5));
+        if (baseIdealWeeks < 2) baseIdealWeeks = 2;
 
-        let options = [];
-        if (numDays <= 2) {
-            options = [
-                { weeks: recWeeks - 2 > 3 ? recWeeks - 2 : 4, desc: "Fast track - Va a ir muy rápido" },
-                { weeks: recWeeks, desc: "Recommended for you - Esto va a ir muy bien", selected: true },
-                { weeks: recWeeks + 2, desc: "Steady pace - Ritmo adecuado" },
-                { weeks: recWeeks + 4, desc: "Relaxed learning - Ritmo constante" },
-                { weeks: recWeeks + 6, desc: "Light pace - Muy flexible" }
-            ];
-        } else if (numDays <= 4) {
-            options = [
-                { weeks: 2, desc: "Intensive course" },
-                { weeks: 3, desc: "Fast track" },
-                { weeks: 4, desc: "Recommended for you - Esto va a ir muy bien", selected: true },
-                { weeks: 6, desc: "Steady pace" },
-                { weeks: 8, desc: "Relaxed learning" }
-            ];
-        } else {
-            options = [
-                { weeks: 2, desc: "Ultra fast - Va a ir muy rápido" },
-                { weeks: 3, desc: "Recommended for you - Esto va a ir muy bien", selected: true },
-                { weeks: 4, desc: "Steady pace" },
-                { weeks: 5, desc: "Relaxed pace" },
-                { weeks: 6, desc: "Light pace" }
-            ];
+        // Generar opciones dinámicas relativas al número de días escogidos
+        let wIntense = Math.max(2, Math.floor(baseIdealWeeks * 0.6));
+        let wFast = Math.max(wIntense + 1, Math.floor(baseIdealWeeks * 0.8));
+        let wRec = baseIdealWeeks;
+        let wSteady = baseIdealWeeks + Math.max(2, Math.round(baseIdealWeeks * 0.4));
+        let wRelaxed = baseIdealWeeks + Math.max(4, Math.round(baseIdealWeeks * 0.8));
+
+        // Evitar duplicados en las semanas calculadas
+        let options = [
+            { weeks: wIntense, desc: "Intensive course" },
+            { weeks: wFast, desc: "Fast track" },
+            { weeks: wRec, desc: "Recommended for you", selected: true },
+            { weeks: wSteady, desc: "Steady pace" },
+            { weeks: wRelaxed, desc: "Relaxed learning" }
+        ];
+
+        // Asegurar unicidad y orden ascendente de semanas
+        let seen = new Set();
+        let uniqueOptions = [];
+        options.forEach(opt => {
+            if (!seen.has(opt.weeks)) {
+                seen.add(opt.weeks);
+                uniqueOptions.push(opt);
+            }
+        });
+
+        // Asegurar que la opción seleccionada por defecto sea la recomendada (o la más cercana a la actual)
+        let foundSelected = false;
+        uniqueOptions.forEach(opt => {
+            if (opt.weeks === selectedWeeks) {
+                opt.selected = true;
+                foundSelected = true;
+            } else {
+                opt.selected = false;
+            }
+        });
+
+        if (!foundSelected && uniqueOptions.length > 0) {
+            uniqueOptions[2] = uniqueOptions[2] || uniqueOptions[0];
+            uniqueOptions[2].selected = true;
+            selectedWeeks = uniqueOptions[2].weeks;
         }
 
         const listContainer = document.getElementById('duration-options-list');
         listContainer.innerHTML = '';
 
-        options.forEach(opt => {
-            if (opt.selected) selectedWeeks = opt.weeks;
-            
+        uniqueOptions.forEach(opt => {
             const card = document.createElement('div');
             card.className = `option-card ${opt.selected ? 'selected' : ''}`;
             card.onclick = () => selectDuration(opt.weeks, card);
             card.innerHTML = `
                 <div class="option-info">
                     <span class="main-label">${opt.weeks} weeks</span>
-                    <span class="sub-label">${opt.desc}</span>
+                    <span class="sub-label">${opt.desc} ${opt.weeks === wRec ? '⭐' : ''}</span>
                 </div>
                 <div class="radio-circle"></div>`;
             listContainer.appendChild(card);
@@ -820,6 +980,48 @@
 
         saveToLocalStorage();
         checkAllCompleted();
+    }
+
+    function toggleNoteInput(id, event) {
+        if (event) event.stopPropagation();
+        const noteContainer = document.getElementById(`lesson-note-container-${id}`);
+        if (noteContainer) {
+            noteContainer.classList.toggle('open');
+            if (noteContainer.classList.contains('open')) {
+                const editable = document.getElementById(`lesson-note-editable-${id}`);
+                if (editable) editable.focus();
+            }
+        }
+    }
+
+    function updateNote(id, htmlContent) {
+        lessonNotes[id] = htmlContent;
+        saveToLocalStorage();
+    }
+
+    function applyFormat(id, command, value = null) {
+        const editable = document.getElementById(`lesson-note-editable-${id}`);
+        if (!editable) return;
+        
+        editable.focus();
+        document.execCommand(command, false, value);
+        updateNote(id, editable.innerHTML);
+    }
+
+    function updateTextColor(id, color) {
+        const preview = document.getElementById(`text-color-preview-${id}`);
+        if (preview) {
+            preview.style.backgroundColor = color;
+        }
+        applyFormat(id, 'foreColor', color);
+    }
+
+    function updateBgColor(id, color) {
+        const preview = document.getElementById(`bg-color-preview-${id}`);
+        if (preview) {
+            preview.style.backgroundColor = color;
+        }
+        applyFormat(id, 'hiliteColor', color);
     }
 
     function markAllCompleted() {
@@ -849,7 +1051,8 @@
             selectedWeeks: selectedWeeks,
             startDate: startDateObj.toISOString(),
             selectedDays: selectedDays,
-            completedLessons: completedLessons
+            completedLessons: completedLessons,
+            lessonNotes: lessonNotes
         };
         localStorage.setItem('driving_plan_data', JSON.stringify(data));
     }
@@ -861,9 +1064,21 @@
                 const data = JSON.parse(saved);
                 selectedWeeks = data.selectedWeeks;
                 startDateObj = new Date(data.startDate);
-                selectedDays = data.selectedDays;
+                selectedDays = data.selectedDays || ['Mon', 'Tue', 'Thu', 'Fri'];
                 completedLessons = data.completedLessons || {};
+                lessonNotes = data.lessonNotes || {};
                 
+                const dayCards = document.querySelectorAll('#days-options-list .option-card');
+                const mapDayNames = { 'Mon': 0, 'Tue': 1, 'Wed': 2, 'Thu': 3, 'Fri': 4, 'Sat': 5, 'Sun': 6 };
+                dayCards.forEach((card, idx) => {
+                    const dayCode = Object.keys(mapDayNames).find(key => mapDayNames[key] === idx);
+                    if (selectedDays.includes(dayCode)) {
+                        card.classList.add('selected');
+                    } else {
+                        card.classList.remove('selected');
+                    }
+                });
+
                 renderStudyPlan();
                 return true;
             } catch (e) {
@@ -876,6 +1091,7 @@
     function resetPlan() {
         localStorage.removeItem('driving_plan_data');
         completedLessons = {};
+        lessonNotes = {};
         goToStep(1);
     }
 
@@ -912,11 +1128,43 @@
                         const item = lessonsData[lessonIdx];
                         const colorClass = colorPalette[(item.id - 1) % colorPalette.length];
                         const isCompleted = completedLessons[item.id] ? 'completed' : '';
+                        const currentNote = lessonNotes[item.id] || '';
+                        const hasNoteClass = currentNote.trim() !== '' ? 'open' : '';
                         
                         itemsHTML += `
-                            <div class="lesson-pill ${colorClass} ${isCompleted}" id="lesson-item-${item.id}" onclick="toggleLesson(${item.id})">
-                                <div class="checkbox-pill"></div>
-                                <span class="lesson-text" style="flex:1">${item.name}</span>
+                            <div class="lesson-container">
+                                <div class="lesson-pill ${colorClass} ${isCompleted}" id="lesson-item-${item.id}" onclick="toggleLesson(${item.id})">
+                                    <div class="checkbox-pill"></div>
+                                    <span class="lesson-text" style="flex:1">${item.name}</span>
+                                    <button class="btn-note-toggle" onclick="toggleNoteInput(${item.id}, event)" title="Agregar nota">✏️</button>
+                                </div>
+                                <div class="lesson-note-container ${hasNoteClass}" id="lesson-note-container-${item.id}">
+                                    <div class="lesson-note-editable" id="lesson-note-editable-${item.id}" contenteditable="true" oninput="updateNote(${item.id}, this.innerHTML)">${currentNote}</div>
+                                    <div class="note-toolbar">
+                                        <button class="tool-btn" onclick="applyFormat(${item.id}, 'bold')" title="Negrita"><b>B</b></button>
+                                        <button class="tool-btn" onclick="applyFormat(${item.id}, 'italic')" title="Cursiva"><i>I</i></button>
+                                        <button class="tool-btn" onclick="applyFormat(${item.id}, 'underline')" title="Subrayado"><u>U</u></button>
+                                        <button class="tool-btn" onclick="applyFormat(${item.id}, 'insertUnorderedList')" title="Lista">•</button>
+                                        <button class="tool-btn" onclick="applyFormat(${item.id}, 'undo')" title="Deshacer">↩</button>
+                                        <button class="tool-btn" onclick="applyFormat(${item.id}, 'redo')" title="Rehacer">↪</button>
+                                        
+                                        <div class="color-picker-wrapper" title="Color del texto">
+                                            <input type="color" class="color-picker-input" id="text-color-input-${item.id}" value="#ffffff" oninput="updateTextColor(${item.id}, this.value)">
+                                            <div class="color-picker-content">
+                                                <span style="font-size: 11px; font-weight: bold; margin-right: 2px;">A</span>
+                                                <div class="color-preview-circle" id="text-color-preview-${item.id}"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="color-picker-wrapper" title="Fondo del texto (Resaltado)">
+                                            <input type="color" class="color-picker-input" id="bg-color-input-${item.id}" value="#1d4ed8" oninput="updateBgColor(${item.id}, this.value)">
+                                            <div class="color-picker-content">
+                                                <span style="font-size: 11px; margin-right: 2px;">🖌️</span>
+                                                <div class="bg-preview-circle" id="bg-color-preview-${item.id}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>`;
                         lessonIdx++;
                     }
@@ -959,8 +1207,8 @@
     }
 
     initDates();
+    updateDurationOptions();
 
-    // Intentar cargar el plan guardado al abrir la aplicación
     if (!loadFromLocalStorage()) {
         goToStep(1);
     }
