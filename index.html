@@ -282,6 +282,41 @@
 
         .btn-continue:hover { opacity: 0.9; }
 
+        .global-progress-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .global-progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--subtext);
+        }
+        .global-progress-info span b {
+            color: #ffffff;
+        }
+        .global-progress-track {
+            width: 100%;
+            height: 8px;
+            background-color: var(--input-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .global-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #1d4ed8, #38bdf8);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
         .week-card {
             background-color: var(--card-bg);
             border-radius: 18px;
@@ -308,13 +343,20 @@
 
         .day-row:last-child { margin-bottom: 0; }
 
-        .day-label {
-            width: 45px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--subtext);
+        .day-col {
+            width: 55px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding-top: 10px;
             flex-shrink: 0;
+        }
+
+        .day-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--subtext);
+            text-align: center;
         }
 
         .lessons-group {
@@ -424,13 +466,15 @@
         .lesson-note-editable {
             width: 100%;
             color: #fff;
-            font-size: 13px;
+            font-size: 14px;
             outline: none;
-            max-height: 120px;
+            min-height: 80px;
+            max-height: 200px;
             overflow-y: auto;
             white-space: pre-wrap;
             word-break: break-word;
             margin-bottom: 10px;
+            line-height: 1.5;
         }
 
         .note-toolbar {
@@ -524,23 +568,6 @@
             background-color: #1d4ed8;
         }
 
-        .congrats-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 32px 20px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .congrats-badge {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
         .modal-bg {
             display: none;
             position: fixed;
@@ -559,6 +586,9 @@
             padding: 24px;
             width: 100%;
             max-width: 360px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
@@ -712,6 +742,16 @@
             
             <a href="https://www.gratisrijbewijsonline.be/theorie/leerstof-rijbewijs-b" target="_blank" rel="noopener noreferrer" class="external-link">🔗 Visit GratisRijbewijsOnline</a>
 
+            <div class="global-progress-card">
+                <div class="global-progress-info">
+                    <span>Progreso Total</span>
+                    <span id="global-progress-text"><b>0%</b> (0/30)</span>
+                </div>
+                <div class="global-progress-track">
+                    <div class="global-progress-fill" id="global-progress-fill"></div>
+                </div>
+            </div>
+
             <div id="results-container"></div>
         </div>
         <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
@@ -722,16 +762,17 @@
 
     <!-- PANTALLA 7: FELICITACIONES -->
     <div class="screen" id="step-7">
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
-            <div class="congrats-card">
-                <div class="congrats-badge">🎉🥳</div>
-                <h1 style="font-size: 24px; margin-bottom: 10px;">¡Felicitaciones!</h1>
-                <p style="color: var(--subtext); font-size: 14px; line-height: 1.5; margin: 0;">
-                    Has completado todos los temas de <strong>Driving Theory B</strong>. ¡Ya estás 100% preparado para aprobar tu examen teórico!
-                </p>
-            </div>
+        <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+            <div style="font-size: 64px; margin-bottom: 20px;">🚗💨</div>
+            <h1 style="font-size: 28px; font-weight: 800; text-align: center; margin-bottom: 12px;">¡Teoría terminada!</h1>
+            <p style="color: var(--subtext); font-size: 15px; text-align: center; line-height: 1.5; max-width: 320px; margin: 0 0 30px 0;">
+                Has completado todo el contenido de Driving Theory B. ¡Estás listo para dar el siguiente paso hacia tu licencia!
+            </p>
+            <a href="https://www.gratisrijbewijsonline.be/theorie/proefexamen-rijbewijs-b" target="_blank" rel="noopener noreferrer" style="width: 100%; max-width: 320px; padding: 16px; border-radius: 30px; background-color: #38bdf8; color: #000000; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4); margin-bottom: 12px;">
+                Hacer examen de prueba 🔗
+            </a>
         </div>
-        <button class="btn-continue" onclick="resetPlan()">Reiniciar plan</button>
+        <button class="btn-continue" onclick="resetPlan()" style="background-color: var(--input-bg); color: #fff; margin-top: 10px;">Reiniciar plan</button>
     </div>
 </div>
 
@@ -764,36 +805,36 @@
     const colorPalette = ['color-blue', 'color-orange', 'color-red', 'color-green', 'color-purple'];
 
     const lessonsData = [
-        { id: 1, name: "De openbare weg en de rijbaan" },
-        { id: 2, name: "De rijstroken, busstrook" },
-        { id: 3, name: "Het fietspad en fietsers" },
-        { id: 4, name: "De autoweg" },
-        { id: 5, name: "De autosnelweg" },
-        { id: 6, name: "Speciale plaatsen" },
-        { id: 7, name: "De voetgangers" },
-        { id: 8, name: "De bestuurders & voertuigen" },
-        { id: 9, name: "De personenauto (MTM & MBT)" },
-        { id: 10, name: "Lading en zitplaatsen" },
-        { id: 11, name: "De lichten en de claxon" },
-        { id: 12, name: "Snelheidsbeperkingen" },
-        { id: 13, name: "Stopafstand en reactietijd" },
-        { id: 14, name: "Kruisen op de weg" },
-        { id: 15, name: "Inhalen (Deel 1 & 2)" },
-        { id: 16, name: "Bevoegde personen & bevelen" },
-        { id: 17, name: "Verkeerslichten" },
-        { id: 18, name: "Verkeersborden en voorrang" },
-        { id: 19, name: "Voorrang van rechts" },
-        { id: 20, name: "Afslaan op een kruispunt" },
-        { id: 21, name: "Trein, tram en bus" },
-        { id: 22, name: "Verboden rijrichting" },
-        { id: 23, name: "Verplichte rijrichting" },
-        { id: 24, name: "Parkeren y stilstaan (Deel 1)" },
-        { id: 25, name: "Parkeren y stilstaan (Deel 2)" },
-        { id: 26, name: "Parkeren y stilstaan (Deel 3)" },
-        { id: 27, name: "Alcohol, drugs & medicijnen" },
-        { id: 28, name: "Ongeval & EHBO" },
-        { id: 29, name: "Milieu & ecologisch rijden" },
-        { id: 30, name: "Techniek & onderhoud van de auto" }
+        { id: 1, name: "1. De openbare weg en de rijbaan" },
+        { id: 2, name: "2. De rijstroken, busstrook" },
+        { id: 3, name: "3. Het fietspad en fietsers" },
+        { id: 4, name: "4. De autoweg" },
+        { id: 5, name: "5. De autosnelweg" },
+        { id: 6, name: "6. Speciale plaatsen" },
+        { id: 7, name: "7. De voetgangers" },
+        { id: 8, name: "8. De bestuurders & voertuigen" },
+        { id: 9, name: "9. De personenauto (MTM & MBT)" },
+        { id: 10, name: "10. Lading en zitplaatsen" },
+        { id: 11, name: "11. De lichten en de claxon" },
+        { id: 12, name: "12. Snelheidsbeperkingen" },
+        { id: 13, name: "13. Stopafstand en reactietijd" },
+        { id: 14, name: "14. Kruisen op de weg" },
+        { id: 15, name: "15 & 16. Inhalen (Deel 1 & 2)" },
+        { id: 16, name: "17. Bevoegde personen & bevelen" },
+        { id: 17, name: "18. Verkeerslichten" },
+        { id: 18, name: "19. Verkeersborden en voorrang" },
+        { id: 19, name: "20. Voorrang van rechts" },
+        { id: 20, name: "21. Afslaan op een kruispunt" },
+        { id: 21, name: "22. Trein, tram en bus" },
+        { id: 22, name: "23. Verboden rijrichting" },
+        { id: 23, name: "24. Verplichte rijrichting" },
+        { id: 24, name: "25. Parkeren y stilstaan (Deel 1)" },
+        { id: 25, name: "26. Parkeren y stilstaan (Deel 2)" },
+        { id: 26, name: "27. Parkeren y stilstaan (Deel 3)" },
+        { id: 27, name: "28. Alcohol, drugs & medicijnen" },
+        { id: 28, name: "29. Ongeval & EHBO" },
+        { id: 29, name: "30. Milieu & ecologisch rijden" },
+        { id: 30, name: "31. Techniek & onderhoud van de auto" }
     ];
 
     function initDates() {
@@ -896,18 +937,15 @@
         const numDays = selectedDays.length;
         const totalLessons = lessonsData.length;
         
-        // Calcular la duración ideal basada en la cantidad de lecciones y días por semana (asumiendo ~1.5 lecciones por día de estudio en ritmo estándar)
         let baseIdealWeeks = Math.ceil(totalLessons / (numDays * 1.5));
         if (baseIdealWeeks < 2) baseIdealWeeks = 2;
 
-        // Generar opciones dinámicas relativas al número de días escogidos
         let wIntense = Math.max(2, Math.floor(baseIdealWeeks * 0.6));
         let wFast = Math.max(wIntense + 1, Math.floor(baseIdealWeeks * 0.8));
         let wRec = baseIdealWeeks;
         let wSteady = baseIdealWeeks + Math.max(2, Math.round(baseIdealWeeks * 0.4));
         let wRelaxed = baseIdealWeeks + Math.max(4, Math.round(baseIdealWeeks * 0.8));
 
-        // Evitar duplicados en las semanas calculadas
         let options = [
             { weeks: wIntense, desc: "Intensive course" },
             { weeks: wFast, desc: "Fast track" },
@@ -916,7 +954,6 @@
             { weeks: wRelaxed, desc: "Relaxed learning" }
         ];
 
-        // Asegurar unicidad y orden ascendente de semanas
         let seen = new Set();
         let uniqueOptions = [];
         options.forEach(opt => {
@@ -926,7 +963,6 @@
             }
         });
 
-        // Asegurar que la opción seleccionada por defecto sea la recomendada (o la más cercana a la actual)
         let foundSelected = false;
         uniqueOptions.forEach(opt => {
             if (opt.weeks === selectedWeeks) {
@@ -978,8 +1014,18 @@
             }
         }
 
+        updateGlobalProgress();
         saveToLocalStorage();
         checkAllCompleted();
+    }
+
+    function updateGlobalProgress() {
+        const completedCount = Object.keys(completedLessons).filter(k => completedLessons[k]).length;
+        const total = lessonsData.length;
+        const pct = Math.round((completedCount / total) * 100);
+
+        document.getElementById('global-progress-fill').style.width = pct + '%';
+        document.getElementById('global-progress-text').innerHTML = `<b>${pct}%</b> (${completedCount}/${total})`;
     }
 
     function toggleNoteInput(id, event) {
@@ -1028,6 +1074,7 @@
         lessonsData.forEach(item => {
             completedLessons[item.id] = true;
         });
+        updateGlobalProgress();
         saveToLocalStorage();
         renderStudyPlan();
         goToStep(7);
@@ -1054,7 +1101,11 @@
             completedLessons: completedLessons,
             lessonNotes: lessonNotes
         };
-        localStorage.setItem('driving_plan_data', JSON.stringify(data));
+        try {
+            localStorage.setItem('driving_plan_data', JSON.stringify(data));
+        } catch (e) {
+            console.error("Error al guardar en localStorage", e);
+        }
     }
 
     function loadFromLocalStorage() {
@@ -1129,7 +1180,6 @@
                         const colorClass = colorPalette[(item.id - 1) % colorPalette.length];
                         const isCompleted = completedLessons[item.id] ? 'completed' : '';
                         const currentNote = lessonNotes[item.id] || '';
-                        const hasNoteClass = currentNote.trim() !== '' ? 'open' : '';
                         
                         itemsHTML += `
                             <div class="lesson-container">
@@ -1138,7 +1188,7 @@
                                     <span class="lesson-text" style="flex:1">${item.name}</span>
                                     <button class="btn-note-toggle" onclick="toggleNoteInput(${item.id}, event)" title="Agregar nota">✏️</button>
                                 </div>
-                                <div class="lesson-note-container ${hasNoteClass}" id="lesson-note-container-${item.id}">
+                                <div class="lesson-note-container" id="lesson-note-container-${item.id}">
                                     <div class="lesson-note-editable" id="lesson-note-editable-${item.id}" contenteditable="true" oninput="updateNote(${item.id}, this.innerHTML)">${currentNote}</div>
                                     <div class="note-toolbar">
                                         <button class="tool-btn" onclick="applyFormat(${item.id}, 'bold')" title="Negrita"><b>B</b></button>
@@ -1160,7 +1210,7 @@
                                             <input type="color" class="color-picker-input" id="bg-color-input-${item.id}" value="#1d4ed8" oninput="updateBgColor(${item.id}, this.value)">
                                             <div class="color-picker-content">
                                                 <span style="font-size: 11px; margin-right: 2px;">🖌️</span>
-                                                <div class="bg-preview-circle" id="bg-color-preview-${item.id}"></div>
+                                                <div class="bg-preview-circle" id="bg-preview-circle-${item.id}"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -1171,7 +1221,13 @@
                 }
 
                 if (itemsHTML !== '') {
-                    daysHTML += `<div class="day-row"><span class="day-label">${day.toUpperCase()}</span><div class="lessons-group">${itemsHTML}</div></div>`;
+                    daysHTML += `
+                        <div class="day-row">
+                            <div class="day-col">
+                                <span class="day-label">${day.toUpperCase()}</span>
+                            </div>
+                            <div class="lessons-group">${itemsHTML}</div>
+                        </div>`;
                 }
             });
 
@@ -1187,6 +1243,7 @@
             container.appendChild(weekCard);
         }
 
+        updateGlobalProgress();
         goToStep(6);
     }
 
