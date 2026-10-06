@@ -445,6 +445,15 @@
             color: #ffffff;
         }
 
+        .lesson-pill.has-note .btn-note-toggle {
+            color: #38bdf8;
+            text-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
+        }
+
+        .lesson-pill.has-note {
+            border: 1.5px solid rgba(56, 189, 248, 0.5);
+        }
+
         .lesson-note-container {
             display: none;
             padding: 12px;
@@ -734,7 +743,7 @@
         <button class="btn-continue" onclick="saveAndRenderPlan()">Start planning</button>
     </div>
 
-    <!-- PANTALLA 6: PLANIFICADOR -->
+    <!-- PANTALLA 6: PLANIFICADOR (Con margen inferior extra para Samsung) -->
     <div class="screen" id="step-6">
         <div>
             <h1 class="step-title">Driving Theory B</h1>
@@ -745,7 +754,7 @@
             <div class="global-progress-card">
                 <div class="global-progress-info">
                     <span>Progreso Total</span>
-                    <span id="global-progress-text"><b>0%</b> (0/30)</span>
+                    <span id="global-progress-text"><b>0%</b> (0/33)</span>
                 </div>
                 <div class="global-progress-track">
                     <div class="global-progress-fill" id="global-progress-fill"></div>
@@ -754,7 +763,8 @@
 
             <div id="results-container"></div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+        <!-- Contenedor con margen extra abajo para evitar conflicto con la barra/gestos de Samsung -->
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 30px; margin-bottom: 40px;">
             <button class="btn-continue" onclick="markAllCompleted()">Mark all as completed</button>
             <button class="btn-continue" onclick="openEditModal()" style="background-color: var(--input-bg); color: #fff;">Edit Plan Settings</button>
         </div>
@@ -772,7 +782,7 @@
                 Hacer examen de prueba 🔗
             </a>
         </div>
-        <button class="btn-continue" onclick="resetPlan()" style="background-color: var(--input-bg); color: #fff; margin-top: 10px;">Reiniciar plan</button>
+        <button class="btn-continue" onclick="resetPlan()" style="background-color: var(--input-bg); color: #fff; margin-top: 10px; margin-bottom: 30px;">Reiniciar plan</button>
     </div>
 </div>
 
@@ -834,7 +844,10 @@
         { id: 27, name: "28. Alcohol, drugs & medicijnen" },
         { id: 28, name: "29. Ongeval & EHBO" },
         { id: 29, name: "30. Milieu & ecologisch rijden" },
-        { id: 30, name: "31. Techniek & onderhoud van de auto" }
+        { id: 30, name: "31. Techniek & onderhoud van de auto" },
+        { id: 31, name: "32. Defensief rijden" },
+        { id: 32, name: "33. Verkeersbordoverzicht (Borden)" },
+        { id: 33, name: "34. Snelheid en reactie" }
     ];
 
     function initDates() {
@@ -1042,6 +1055,21 @@
 
     function updateNote(id, htmlContent) {
         lessonNotes[id] = htmlContent;
+        
+        const textOnly = htmlContent.replace(/<[^>]*>/g, '').trim();
+        const pillEl = document.getElementById(`lesson-item-${id}`);
+        const btnToggle = document.getElementById(`note-btn-icon-${id}`);
+        
+        if (pillEl) {
+            if (textOnly.length > 0) {
+                pillEl.classList.add('has-note');
+                if (btnToggle) btnToggle.innerText = '📄';
+            } else {
+                pillEl.classList.remove('has-note');
+                if (btnToggle) btnToggle.innerText = '✏️';
+            }
+        }
+
         saveToLocalStorage();
     }
 
@@ -1181,12 +1209,16 @@
                         const isCompleted = completedLessons[item.id] ? 'completed' : '';
                         const currentNote = lessonNotes[item.id] || '';
                         
+                        const textOnly = currentNote.replace(/<[^>]*>/g, '').trim();
+                        const hasNoteClass = textOnly.length > 0 ? 'has-note' : '';
+                        const iconSymbol = textOnly.length > 0 ? '📄' : '✏️️';
+                        
                         itemsHTML += `
                             <div class="lesson-container">
-                                <div class="lesson-pill ${colorClass} ${isCompleted}" id="lesson-item-${item.id}" onclick="toggleLesson(${item.id})">
+                                <div class="lesson-pill ${colorClass} ${isCompleted} ${hasNoteClass}" id="lesson-item-${item.id}" onclick="toggleLesson(${item.id})">
                                     <div class="checkbox-pill"></div>
                                     <span class="lesson-text" style="flex:1">${item.name}</span>
-                                    <button class="btn-note-toggle" onclick="toggleNoteInput(${item.id}, event)" title="Agregar nota">✏️</button>
+                                    <button class="btn-note-toggle" onclick="toggleNoteInput(${item.id}, event)" title="Ver/Editar nota"><span id="note-btn-icon-${item.id}">${iconSymbol}</span></button>
                                 </div>
                                 <div class="lesson-note-container" id="lesson-note-container-${item.id}">
                                     <div class="lesson-note-editable" id="lesson-note-editable-${item.id}" contenteditable="true" oninput="updateNote(${item.id}, this.innerHTML)">${currentNote}</div>
